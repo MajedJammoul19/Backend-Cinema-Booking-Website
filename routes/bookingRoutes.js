@@ -9,12 +9,15 @@ import { protect, attachUser } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// All booking routes require login
+// ── Public route (no login required) ─────────────────────
+// Anyone viewing the seat layout needs to see which seats are taken
+router.get('/:movieId/booked-seats', getBookedSeats);
+
+// ── Protected routes (require login) ──────────────────────
 router.use(protect, attachUser);
 
 router.post('/', createBooking);                              // SeatLayout checkout
 router.get('/my', getMyBookings);                            // MyBookings page
 router.delete('/:id', cancelBooking);                        // Cancel booking
-router.get('/:movieId/booked-seats', getBookedSeats);        // Block taken seats in SeatLayout
 
 export default router;
