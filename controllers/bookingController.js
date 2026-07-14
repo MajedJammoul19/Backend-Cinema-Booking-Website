@@ -122,3 +122,17 @@ export const getBookedSeats = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
+// GET /api/admin/bookings — every booking, with user + movie info
+export const getAllBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find()
+      .populate('movie', 'title poster_path')
+      .populate('user', 'firstName lastName email')
+      .sort({ createdAt: -1 });
+    res.json({ success: true, bookings });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

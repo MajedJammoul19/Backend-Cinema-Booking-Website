@@ -90,3 +90,13 @@ export const deleteMovie = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
+export const getAllMoviesAdmin = async (req, res) => {
+  try {
+    const movies = await Movie.find().sort({ createdAt: -1 });
+    res.json({ success: true, movies });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
